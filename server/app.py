@@ -7,6 +7,10 @@ from ..models import LegalAction
 
 app = FastAPI(title="Legal Document Review Environment")
 
+@app.get("/")
+def home():
+    return {"status": "running"}
+
 # Instantiate a single global environment
 # In a real setup, we might map episode_ids to environment instances for concurrency
 env_instance = LegalDocumentReviewEnv()
