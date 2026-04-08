@@ -1,0 +1,17 @@
+[project]
+name = "legal-doc-review-env"
+version = "0.1.0"
+description = "AI environment for reviewing legal contracts complying with OpenEnv"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "openenv-core",
+    "pydantic",
+    "openai",
+    "fastapi",
+    "uvicorn"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

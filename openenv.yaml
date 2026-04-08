@@ -1,0 +1,11 @@
+spec_version: 1
+name: legal-doc-review-env
+type: space
+runtime: fastapi
+app: server.app:app
+port: 8000
+description: AI environment for reviewing legal contracts
+tasks:
+  - easy_clause_detection
+  - medium_risk_analysis
+  - hard_full_review

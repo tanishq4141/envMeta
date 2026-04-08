@@ -1,0 +1,115 @@
+[
+  {
+    "id": "emp_1",
+    "contract_type": "Employment",
+    "difficulty": "easy",
+    "text": "EMPLOYMENT AGREEMENT\n\nThis agreement is between Company XYZ and Jane Doe. Employment is strictly at-will, meaning termination can occur without any prior notice.",
+    "ground_truth_risks": ["termination_without_notice"],
+    "ground_truth_classification": "Employment",
+    "ground_truth_decision": "approve",
+    "ground_truth_suggestions": {
+      "termination_without_notice": "Add a two-week notice period requirement."
+    }
+  },
+  {
+    "id": "emp_2",
+    "contract_type": "Employment",
+    "difficulty": "medium",
+    "text": "EMPLOYMENT CONTRACT\n\nEmployee agrees not to work for any competitor worldwide for a period of 5 years after termination. All IP created by employee, including off-hours personal projects, belongs to the employer.",
+    "ground_truth_risks": ["non_compete_overbroad", "ip_assignment_overreach"],
+    "ground_truth_classification": "Employment",
+    "ground_truth_decision": "reject",
+    "ground_truth_suggestions": {
+      "non_compete_overbroad": "Limit non-compete to 1 year and a realistic geographic scope.",
+      "ip_assignment_overreach": "Exclude IP developed on employee's own time without company resources."
+    }
+  },
+  {
+    "id": "emp_3",
+    "contract_type": "Employment",
+    "difficulty": "hard",
+    "text": "EMPLOYMENT TERMS\n\nThe employee will receive no paid time off and can be fired at any time for any reason. To dispute any termination, employee must pay all employer legal fees.",
+    "ground_truth_risks": ["termination_without_notice", "unfair_legal_fees"],
+    "ground_truth_classification": "Employment",
+    "ground_truth_decision": "reject",
+    "ground_truth_suggestions": {
+      "termination_without_notice": "Establish clear termination causes.",
+      "unfair_legal_fees": "Remove asymmetrical legal fee provision."
+    }
+  },
+  {
+    "id": "nda_1",
+    "contract_type": "NDA",
+    "difficulty": "easy",
+    "text": "NON-DISCLOSURE AGREEMENT\n\nReceiving Party agrees to keep all information confidential indefinitely, regardless of whether it becomes public knowledge.",
+    "ground_truth_risks": ["indefinite_duration"],
+    "ground_truth_classification": "NDA",
+    "ground_truth_decision": "reject",
+    "ground_truth_suggestions": {
+      "indefinite_duration": "Limit confidentiality to 2-5 years and exclude publicly known information."
+    }
+  },
+  {
+    "id": "nda_2",
+    "contract_type": "NDA",
+    "difficulty": "medium",
+    "text": "CONFIDENTIALITY AGREEMENT\n\nCompany A will share information with Company B. Only Company B is bound by confidentiality. 'Confidential Information' includes any and all communications between the parties.",
+    "ground_truth_risks": ["unilateral_obligation", "broad_definition"],
+    "ground_truth_classification": "NDA",
+    "ground_truth_decision": "reject",
+    "ground_truth_suggestions": {
+      "unilateral_obligation": "Make the agreement mutual.",
+      "broad_definition": "Require confidential information to be specifically marked."
+    }
+  },
+  {
+    "id": "nda_3",
+    "contract_type": "NDA",
+    "difficulty": "hard",
+    "text": "MUTUAL NDA\n\nBoth parties agree to protect shared information for 3 years. Confidential information must be marked as such. The receiving party is strictly liable for any breach, including those by third-party hackers.",
+    "ground_truth_risks": ["strict_liability_third_party"],
+    "ground_truth_classification": "NDA",
+    "ground_truth_decision": "reject",
+    "ground_truth_suggestions": {
+      "strict_liability_third_party": "Limit liability to reasonable measures or gross negligence."
+    }
+  },
+  {
+    "id": "vendor_1",
+    "contract_type": "Vendor/Service",
+    "difficulty": "easy",
+    "text": "VENDOR AGREEMENT\n\nVendor will provide SaaS to Client. Vendor's total aggregate liability under this agreement shall not exceed $10.",
+    "ground_truth_risks": ["liability_cap_low"],
+    "ground_truth_classification": "Vendor/Service",
+    "ground_truth_decision": "reject",
+    "ground_truth_suggestions": {
+      "liability_cap_low": "Increase liability cap to fees paid in the last 12 months."
+    }
+  },
+  {
+    "id": "vendor_2",
+    "contract_type": "Vendor/Service",
+    "difficulty": "medium",
+    "text": "SERVICE CONTRACT\n\nTerm is 1 year. The contract will automatically renew for successive 1-year terms unless canceled 90 days before renewal. Vendor must indemnify Client for any intellectual property infringement claims.",
+    "ground_truth_risks": ["auto_renewal_hidden", "indemnification_onesided"],
+    "ground_truth_classification": "Vendor/Service",
+    "ground_truth_decision": "approve",
+    "ground_truth_suggestions": {
+      "auto_renewal_hidden": "Update to 30 days notice for cancellation.",
+      "indemnification_onesided": "Make indemnification mutual."
+    }
+  },
+  {
+    "id": "vendor_3",
+    "contract_type": "Vendor/Service",
+    "difficulty": "hard",
+    "text": "SUPPLIER AGREEMENT\n\nSupplier agrees to deliver goods on time. Failure to deliver allows Buyer to terminate immediately and seek unlimited damages. Supplier has no right to cure defects.",
+    "ground_truth_risks": ["unlimited_damages", "no_cure_period"],
+    "ground_truth_classification": "Vendor/Service",
+    "ground_truth_decision": "reject",
+    "ground_truth_suggestions": {
+      "unlimited_damages": "Cap damages appropriately.",
+      "no_cure_period": "Add a 30-day cure period for breaches."
+    }
+  }
+]
