@@ -102,19 +102,20 @@ async def run_task(client: OpenAI, task_name: str) -> None:
     log_start(task=task_name, env=BENCHMARK, model=MODEL_NAME)
 
     try:
-        obs_obj = env.reset(task_name)
+        # Use the new OpenEnv-compatible reset signature
+        obs = env.reset(task_name=task_name)
         obs_dict = {
-            "document_text": obs_obj.document_text,
-            "contract_type": obs_obj.contract_type,
-            "identified_risks": obs_obj.identified_risks,
-            "suggestions": obs_obj.suggestions,
-            "status": obs_obj.status,
-            "feedback": obs_obj.feedback
+            "document_text": obs.document_text,
+            "contract_type": obs.contract_type,
+            "identified_risks": obs.identified_risks,
+            "suggestions": obs.suggestions,
+            "status": obs.status,
+            "feedback": obs.feedback
         }
-        doc_text = obs_obj.document_text
+        doc_text = obs.document_text
 
         for step in range(1, MAX_STEPS + 1):
-            if env.state_data["done"]:
+            if obs.done:
                 break
 
             action_dict = get_model_action(client, step, doc_text, obs_dict, history)
@@ -122,23 +123,23 @@ async def run_task(client: OpenAI, task_name: str) -> None:
 
             try:
                 legal_action = LegalAction(**action_dict)
-                obs_obj, rew_obj, done, info = env.step(legal_action)
-                
+                obs = env.step(legal_action)
+
                 obs_dict = {
-                    "document_text": obs_obj.document_text,
-                    "contract_type": obs_obj.contract_type,
-                    "identified_risks": obs_obj.identified_risks,
-                    "suggestions": obs_obj.suggestions,
-                    "status": obs_obj.status,
-                    "feedback": obs_obj.feedback
+                    "document_text": obs.document_text,
+                    "contract_type": obs.contract_type,
+                    "identified_risks": obs.identified_risks,
+                    "suggestions": obs.suggestions,
+                    "status": obs.status,
+                    "feedback": obs.feedback
                 }
-                reward = info.get("step_reward", 0.0)
+                reward = obs.reward if obs.reward is not None else 0.0
+                done = obs.done
                 error = None
             except Exception as set_err:
                 reward = 0.0
                 done = True
                 error = str(set_err)
-                obs_obj = None
 
             rewards.append(reward)
             steps_taken = step
@@ -148,12 +149,12 @@ async def run_task(client: OpenAI, task_name: str) -> None:
             history.append(f"Step {step}: {action_str} -> reward {reward:+.2f}")
 
             if done:
-                score = env.state_data.get("cumulative_reward", 0.0)
+                score = reward  # final cumulative reward is in the last observation
                 break
-        
-        if not env.state_data["done"]:
-            score = env.state_data.get("cumulative_reward", 0.0)
-            
+
+        if not obs.done:
+            score = obs.reward if obs.reward is not None else 0.0
+
         success = score >= SUCCESS_SCORE_THRESHOLD
 
     finally:
