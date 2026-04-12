@@ -1,9 +1,9 @@
-from openenv.core.env_server import create_fastapi_app
+from openenv.core.env_server import create_web_interface_app
 from environment import LegalDocumentReviewEnv
 from models import LegalAction, LegalObservation
 import uvicorn
 
-app = create_fastapi_app(
+app = create_web_interface_app(
     env=LegalDocumentReviewEnv,
     action_cls=LegalAction,
     observation_cls=LegalObservation,

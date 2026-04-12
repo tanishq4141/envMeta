@@ -7,8 +7,8 @@ def grade_easy(env_state) -> float:
     
     for risk in identified_risks:
         if risk in gt_risks:
-            return 1.0
-    return 0.0
+            return 0.99
+    return 0.01
 
 def grade_medium(env_state) -> float:
     """
@@ -26,7 +26,8 @@ def grade_medium(env_state) -> float:
     gt_classification = env_state["current_contract"].get("ground_truth_classification")
     classification_correct = 1.0 if env_state.get("classification") == gt_classification else 0.0
     
-    return 0.5 * risk_ratio + 0.5 * classification_correct
+    score = 0.5 * risk_ratio + 0.5 * classification_correct
+    return max(0.01, min(0.99, score))
 
 def grade_hard(env_state) -> float:
     """
@@ -59,4 +60,5 @@ def grade_hard(env_state) -> float:
     gt_decision = env_state["current_contract"].get("ground_truth_decision")
     decision_correct = 1.0 if env_state.get("decision") == gt_decision else 0.0
     
-    return 0.4 * risk_ratio + 0.3 * sugg_ratio + 0.3 * decision_correct
+    score = 0.4 * risk_ratio + 0.3 * sugg_ratio + 0.3 * decision_correct
+    return max(0.01, min(0.99, score))

@@ -150,7 +150,7 @@ class LegalDocumentReviewEnv(Environment):
 
         # Update cumulative reward and clamp
         self._state.cumulative_reward += reward_delta
-        self._state.cumulative_reward = max(0.0, min(1.0, self._state.cumulative_reward))
+        self._state.cumulative_reward = max(0.01, min(0.99, self._state.cumulative_reward))
 
         # Check termination conditions
         difficulty = TASK_TO_DIFFICULTY[self._state.task]
@@ -184,7 +184,7 @@ class LegalDocumentReviewEnv(Environment):
                 final_score = grade_medium(env_state_dict)
             else:
                 final_score = grade_hard(env_state_dict)
-            self._state.cumulative_reward = max(0.0, min(1.0, final_score))
+            self._state.cumulative_reward = max(0.01, min(0.99, final_score))
 
         return LegalObservation(
             document_text=contract["text"],
