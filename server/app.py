@@ -22,7 +22,12 @@ class ResetRequest(BaseModel):
 def reset_environment(req: ResetRequest):
     try:
         obs = env_instance.reset(req.task_name)
-        return obs.model_dump()
+        return {
+            "observation": obs.model_dump(),
+            "reward": 0.0,
+            "done": False,
+            "info": {}
+        }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -32,7 +37,7 @@ def step_environment(action: LegalAction):
         obs, rew, done, info = env_instance.step(action)
         return {
             "observation": obs.model_dump(),
-            "reward": rew.model_dump(),
+            "reward": rew.score,
             "done": done,
             "info": info
         }
