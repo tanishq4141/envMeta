@@ -4,7 +4,7 @@ emoji: ⚖️
 colorFrom: blue
 colorTo: green
 sdk: docker
-app_port: 8000
+app_port: 7860
 ---
 # Legal Document Review Environment
 
@@ -25,13 +25,13 @@ You can run the environment natively or using Docker.
 **Native**:
 ```bash
 pip install -r pyproject.toml # Or standard pip install .
-uvicorn server.app:app --host 0.0.0.0 --port 8000
+uvicorn server.app:app --host 0.0.0.0 --port 7860
 ```
 
 **Docker**:
 ```bash
 docker build -t legal-doc-review-env -f server/Dockerfile .
-docker run -p 8000:8000 legal-doc-review-env
+docker run -p 7860:7860 legal-doc-review-env
 ```
 
 ### Running Inference
