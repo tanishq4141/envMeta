@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
-from ..environment import LegalDocumentReviewEnv
-from ..models import LegalAction
+from environment import LegalDocumentReviewEnv
+from models import LegalAction
 
 app = FastAPI(title="Legal Document Review Environment")
 
@@ -14,14 +14,15 @@ def home():
 env_instance = None
 
 class ResetRequest(BaseModel):
-    task_name: str
+    task_name: Optional[str] = "easy_clause_detection"
 
 @app.post("/reset")
-def reset_environment(req: ResetRequest):
+def reset_environment(req: Optional[ResetRequest] = None):
     global env_instance
     try:
         env_instance = LegalDocumentReviewEnv()
-        obs = env_instance.reset(req.task_name)
+        task_name = req.task_name if req and req.task_name else "easy_clause_detection"
+        obs = env_instance.reset(task_name)
         return {
             "observation": obs.model_dump(),
             "reward": 0.0,

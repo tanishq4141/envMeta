@@ -1,3 +1,11 @@
+---
+title: Legal Document Review Environment
+emoji: ⚖️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8000
+---
 # Legal Document Review Environment
 
 An **OpenEnv-compliant** environment that simulates legal contract review. An AI agent is tasked with identifying risky clauses, suggesting corrections, classifying contracts, and making final approval/rejection decisions.

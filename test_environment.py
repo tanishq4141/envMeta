@@ -1,6 +1,6 @@
 import pytest
-from .models import LegalAction
-from .environment import LegalDocumentReviewEnv
+from models import LegalAction
+from environment import LegalDocumentReviewEnv
 
 def test_easy_task():
     env = LegalDocumentReviewEnv()

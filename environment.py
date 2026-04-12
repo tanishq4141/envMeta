@@ -1,9 +1,9 @@
 import uuid
 import random
 from typing import Dict, Any, Tuple
-from .models import LegalAction, LegalObservation, LegalState, LegalReward
-from .contracts import get_contracts_by_difficulty
-from .graders import grade_easy, grade_medium, grade_hard
+from models import LegalAction, LegalObservation, LegalState, LegalReward
+from contracts import get_contracts_by_difficulty
+from graders import grade_easy, grade_medium, grade_hard
 
 # Map task names to difficulty names defined in contracts.json
 TASK_TO_DIFFICULTY = {
