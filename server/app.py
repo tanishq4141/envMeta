@@ -11,16 +11,16 @@ app = FastAPI(title="Legal Document Review Environment")
 def home():
     return {"status": "running"}
 
-# Instantiate a single global environment
-# In a real setup, we might map episode_ids to environment instances for concurrency
-env_instance = LegalDocumentReviewEnv()
+env_instance = None
 
 class ResetRequest(BaseModel):
     task_name: str
 
 @app.post("/reset")
 def reset_environment(req: ResetRequest):
+    global env_instance
     try:
+        env_instance = LegalDocumentReviewEnv()
         obs = env_instance.reset(req.task_name)
         return {
             "observation": obs.model_dump(),
@@ -33,6 +33,9 @@ def reset_environment(req: ResetRequest):
 
 @app.post("/step")
 def step_environment(action: LegalAction):
+    global env_instance
+    if env_instance is None:
+        raise HTTPException(status_code=400, detail="Environment not initialized. Call /reset first.")
     try:
         obs, rew, done, info = env_instance.step(action)
         return {
@@ -46,6 +49,9 @@ def step_environment(action: LegalAction):
 
 @app.get("/state")
 def get_state():
+    global env_instance
+    if env_instance is None:
+        raise HTTPException(status_code=400, detail="Environment not initialized.")
     try:
         state = env_instance.state()
         return state.model_dump()
